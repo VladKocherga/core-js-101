@@ -483,8 +483,16 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    if (b.country > a.country || (b.country === a.country && b.city > a.city)) {
+      return -1;
+    }
+    if (b.country < a.country) {
+      return 1;
+    }
+    return 0;
+  });
 }
 
 /**
@@ -522,8 +530,16 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  let arr = [];
+  if (start < 0 && end < 0) {
+    arr = new Array(Math.abs(start) + Math.abs(end) + 1);
+  } else {
+    arr = new Array(end + 1 - start);
+  }
+  arr.fill(null);
+  // eslint-disable-next-line no-plusplus
+  return arr.map(() => start++);
 }
 
 /**
