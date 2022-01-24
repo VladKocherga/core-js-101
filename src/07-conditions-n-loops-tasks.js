@@ -359,8 +359,25 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    '(': ')',
+    '{': '}',
+    '[': ']',
+    '<': '>',
+  };
+
+  const closingBrackets = Object.values(brackets);
+  const stack = [];
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < str.length; i++) {
+    if (brackets[str[i]]) {
+      stack.push(str[i]);
+    } else if (closingBrackets.includes(str[i]) && str[i] !== brackets[stack.pop()]) return false;
+  }
+
+  return !stack.length;
 }
 
 /**
@@ -399,8 +416,10 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const result = pathes.reduce((accum, element) => element.split('/').filter((el) => accum.includes(el)), pathes[0].split('/'));
+  if ((result.length)) return `${result.join('/')}/`;
+  return result.join('');
 }
 
 /**
@@ -421,8 +440,17 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  // eslint-disable-next-line max-len
+  const result = Array.from({ length: m1.length }, () => Array.from({ length: m2[0].length }).fill(0));
+  for (let i = 0; i < m1.length; i += 1) {
+    for (let j = 0; j < m2[0].length; j += 1) {
+      for (let k = 0; k < m2.length; k += 1) {
+        result[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+  return result;
 }
 
 /**
@@ -455,8 +483,33 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < 3; i++) {
+    if (position[i][0] && position[i].every((el) => (el === position[i][0]))
+      && position[i].length === 3) {
+      return position[i][0];
+    }
+    const column = [];
+    const back = [];
+    const right = [];
+    // eslint-disable-next-line no-plusplus
+    for (let j = 0; j < 3; j++) {
+      column.push(position[j][i]);
+      back.push(position[j][2 - j]);
+      right.push(position[j][j]);
+    }
+    if (column.every((element) => element === column[0])) {
+      return column[0];
+    }
+    if (right.every((element) => element === right[0])) {
+      return right[0];
+    }
+    if (back.every((element) => element === back[0])) {
+      return back[0];
+    }
+  }
+  return undefined;
 }
 
 module.exports = {
